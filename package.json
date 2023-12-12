@@ -42,7 +42,7 @@
     "type": "git",
     "url": "git+https://github.com/britishgas-engineering/bg-react-native-torch.git"
   },
-  "author": "Jaanki Mistry <Jaanki.Mistry@centrica.com> (https://github.com/KGajraj)",
+  "author": "Kieran Gajraj <Kieran.Gajraj@centrica.com> (https://github.com/KGajraj)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/britishgas-engineering/bg-react-native-torch/issues"
@@ -57,7 +57,6 @@
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
     "@types/react-native": "0.70.0",
-    "commitlint": "^17.0.2",
     "del-cli": "^5.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
@@ -91,11 +90,6 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
     ]
   },
   "release-it": {
