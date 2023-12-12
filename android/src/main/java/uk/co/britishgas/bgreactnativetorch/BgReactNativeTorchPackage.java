@@ -1,4 +1,4 @@
-package com.bgreactnativetorch;
+package uk.co.britishgas.bgreactnativetorch;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

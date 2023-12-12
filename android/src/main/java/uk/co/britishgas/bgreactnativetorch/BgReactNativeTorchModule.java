@@ -1,4 +1,4 @@
-package com.bgreactnativetorch;
+package uk.co.britishgas.bgreactnativetorch;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -8,7 +8,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.util.Log;
 
-// import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;

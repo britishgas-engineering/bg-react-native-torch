@@ -1,5 +1,7 @@
+<!-- AndroidManifest.xml -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bgreactnativetorch">
+          package="uk.co.britishgas.bgreactnativetorch">
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 </manifest>
