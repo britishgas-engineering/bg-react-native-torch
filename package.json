@@ -1,6 +1,6 @@
 {
   "name": "bg-react-native-torch",
-  "version": "0.0.0-local.2",
+  "version": "0.0.0-local.4",
   "description": "Native module for controlling the device's torch",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

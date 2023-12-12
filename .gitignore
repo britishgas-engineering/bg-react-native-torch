@@ -79,3 +79,4 @@ android/keystores/debug.keystore
 lib/
 
 bg-react-native-torch-*.tgz
+/*.tgz
