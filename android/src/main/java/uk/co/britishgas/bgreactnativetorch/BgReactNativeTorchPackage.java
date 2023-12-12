@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
  
-public class TorchPackage implements ReactPackage {
+public class BgReactNativeTorchPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();
@@ -20,7 +20,7 @@ public class TorchPackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
  
-        modules.add(new TorchModule(reactContext));
+        modules.add(new BgReactNativeTorchModule(reactContext));
  
         return modules;
     }

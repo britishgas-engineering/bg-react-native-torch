@@ -26,18 +26,18 @@ import java.util.Date;
  * @author Kieran Gajraj
  * @version 0.1.0
  */
-public class TorchModule extends ReactContextBaseJavaModule {
+public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
     private final ReactApplicationContext reactContext;
     private CameraManager cameraManager;
     private CameraManager.TorchCallback torchCallback;
     private Boolean isTorchEnabled;
 
     /**
-     * Constructor for TorchModule
+     * Constructor for BgReactNativeTorchModule
      * 
      * @param reactContext The React Native Application context
      */
-    TorchModule(ReactApplicationContext reactContext) {
+    BgReactNativeTorchModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
 
@@ -81,7 +81,7 @@ public class TorchModule extends ReactContextBaseJavaModule {
      */
     @Override()
     public String getName() {
-        return "TorchModule";
+        return "BgReactNativeTorch";
     }
 
     /**
@@ -123,7 +123,7 @@ public class TorchModule extends ReactContextBaseJavaModule {
                 return cameraManager.getCameraCharacteristics(cameraId)
                         .get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             } catch (CameraAccessException e) {
-                Log.e("TorchModule", "Error: " + e.getMessage());
+                Log.e("BgReactNativeTorchModule", "Error: " + e.getMessage());
                 return false;
             }
         } else {
@@ -143,7 +143,7 @@ public class TorchModule extends ReactContextBaseJavaModule {
                 String cameraId = cameraManager.getCameraIdList()[0];
                 cameraManager.setTorchMode(cameraId, newState);
             } catch (Exception e) {
-                Log.e("TorchModule", "Error: " + e.getMessage());
+                Log.e("BgReactNativeTorchModule", "Error: " + e.getMessage());
             }
         } else {
             Camera camera = Camera.open();
@@ -179,7 +179,7 @@ public class TorchModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * This is called when a TorchModule NativeEventEmitter's listener is removed.
+     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener is removed.
      */
     @ReactMethod
     public void removeListeners(Integer count) {

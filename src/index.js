@@ -1,15 +1,8 @@
-import {
-  type EventSubscription,
-  NativeEventEmitter,
-  NativeModules,
-} from 'react-native';
-import type { TorchState } from './types';
-
+import { NativeEventEmitter, NativeModules } from 'react-native';
 const LINKING_ERROR =
   `The package 'bg-react-native-torch' doesn't seem to be linked. Make sure: \n\n` +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
-
 const BgReactNativeTorch = NativeModules.BgReactNativeTorch
   ? NativeModules.BgReactNativeTorch
   : new Proxy(
@@ -20,33 +13,24 @@ const BgReactNativeTorch = NativeModules.BgReactNativeTorch
         },
       }
     );
-
 BgReactNativeTorch.registerTorchCallback();
-
-const getEnabledState = (): boolean => {
+const getEnabledState = () => {
   return BgReactNativeTorch.getIsTorchEnabled();
 };
-
-const getAvailableState = (): boolean => {
+const getAvailableState = () => {
   return BgReactNativeTorch.getIsTorchAvailable();
 };
-
 const registerTorchCallback = () => {
   BgReactNativeTorch.registerTorchCallback();
 };
-
-const onStateChange = (
-  callback: (torchState: TorchState) => void
-): EventSubscription => {
+const onStateChange = (callback) => {
   const emitter = new NativeEventEmitter(BgReactNativeTorch);
   const subscription = emitter.addListener('TorchStateChange', callback);
   return subscription;
 };
-
-const setEnabledState = (newState: boolean) => {
+const setEnabledState = (newState) => {
   BgReactNativeTorch.setStateEnabled(newState);
 };
-
 export default {
   getEnabledState,
   getAvailableState,
@@ -54,5 +38,3 @@ export default {
   registerTorchCallback,
   onStateChange,
 };
-
-export type { TorchState };
