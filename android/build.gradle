@@ -1,8 +1,14 @@
-def safeExtGet(prop, fallback) {
-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
-}
-
 apply plugin: 'com.android.library'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.1'
+    }
+}
 
 android {
     compileSdkVersion 33
@@ -13,12 +19,41 @@ android {
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     lintOptions {
         warning 'InvalidPackage'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+//            all {
+//                useJUnitPlatform()
+//            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-android:0.71.14'
+//    implementation 'org.springframework:spring-context:6.1.1'
+
+    testImplementation 'com.facebook.react:react-android:0.71.14'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test:core:1.5.0'
+    testImplementation 'org.mockito:mockito-core:5.6.0'
+    testImplementation 'org.robolectric:robolectric:4.10.3'
+    testImplementation 'org.conscrypt:conscrypt-openjdk-uber:2.5.2'
+    testImplementation 'org.springframework:spring-test:6.1.1'
+
+
+//    testImplementation 'androidx.test.ext:junit-ktx:+'
+//
 }
