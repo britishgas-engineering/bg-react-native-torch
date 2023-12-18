@@ -99,6 +99,10 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 String[] cameraIds = cameraManager.getCameraIdList();
+
+                if (cameraIds == null) {
+                    return false;
+                }
                 if (cameraIds.length == 0) {
                     return false;
                 }

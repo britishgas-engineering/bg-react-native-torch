@@ -2,10 +2,12 @@ package uk.co.britishgas.bgreactnativetorch;
 
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -54,11 +56,15 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      * enabled state and the availability state
      */
     private void emitTorchEvent() {
-        WritableMap params = Arguments.createMap();
+        WritableMap params = new JavaOnlyMap();
         params.putBoolean("enabled", torchModule.getIsTorchEnabled());
         params.putBoolean("available", torchModule.getIsTorchAvailable());
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("TorchStateChange", params);
+        try {
+            reactContext
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit("TorchStateChange", params);
+        } catch (IllegalStateException e) {
+            Log.e("BgTorchModule", "Could not emit TorchStateChange event because React instance is not fully set up");
+        }
     }
 }
