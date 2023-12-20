@@ -8,7 +8,9 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +23,8 @@ import android.hardware.camera2.CameraManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +46,10 @@ import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchCallback;
 import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchModule;
 
 // TODO: Figure out testing for Android < 6
+// To test the events being emitted, partial mocks?
+// https://javadoc.io/static/org.mockito/mockito-core/5.8.0/org/mockito/Mockito.html
+// Nope should actually be with Spy
+
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 33)
@@ -55,16 +63,22 @@ public class BgReactNativeTorchModuleTest {
 
     @Mock
     private CameraCharacteristics mockCameraCharacteristics;
-    private ReactApplicationContext reactApplicationContext = new ReactApplicationContext(ApplicationProvider.getApplicationContext());
+    private ReactApplicationContext reactApplicationContext = spy(new ReactApplicationContext(ApplicationProvider.getApplicationContext()));
+
+    @Mock
+    private DeviceEventManagerModule.RCTDeviceEventEmitter mockDeviceEventEmitter;
 
     @Captor
     ArgumentCaptor<BgReactNativeTorchCallback> callbackCaptor;
+
+    @Captor
+    ArgumentCaptor<WritableMap> eventParamsCaptor;
 
     @InjectMocks
     private BgReactNativeTorchModule torchModule = new BgReactNativeTorchModule(reactApplicationContext);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -104,31 +118,109 @@ public class BgReactNativeTorchModuleTest {
 
     @Test
     public void testOnTorchModeChanged() {
-        doNothing().when(mockCameraManager).registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
-        torchModule.registerTorchCallback();
-        verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
-        BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
+        try {
+            WritableMap eventParams;
 
-        callbackCaptorValue.onTorchModeChanged("0", true);
-        assertTrue(torchModule.getIsTorchEnabled());
+            doReturn(mockDeviceEventEmitter).when(reactApplicationContext).getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
+            doNothing().when(mockDeviceEventEmitter).emit(eq("TorchModule"), any(WritableMap.class));
+            doNothing().when(mockCameraManager).registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
 
-        callbackCaptorValue.onTorchModeChanged("0", false);
-        assertFalse(torchModule.getIsTorchEnabled());
+            when(mockCameraManager.getCameraIdList()).thenReturn(new String[]{"0"});
+            when(mockCameraManager.getCameraCharacteristics("0")).thenReturn(mockCameraCharacteristics);
+            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)).thenReturn(true);
 
-        callbackCaptorValue.onTorchModeChanged("0", false);
-        assertFalse(torchModule.getIsTorchEnabled());
+            torchModule.registerTorchCallback();
+            verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
+            BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
 
-        callbackCaptorValue.onTorchModeChanged("0", true);
-        assertTrue(torchModule.getIsTorchEnabled());
+            callbackCaptorValue.onTorchModeChanged("0", true);
+            assertTrue(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(1)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertTrue(eventParams.getBoolean("enabled"));
 
-        callbackCaptorValue.onTorchModeChanged("0", true);
-        assertTrue(torchModule.getIsTorchEnabled());
+            callbackCaptorValue.onTorchModeChanged("0", false);
+            assertFalse(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(2)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertFalse(eventParams.getBoolean("enabled"));
 
-        callbackCaptorValue.onTorchModeChanged("1", true);
-        assertTrue(torchModule.getIsTorchEnabled());
 
-        callbackCaptorValue.onTorchModeChanged("1", false);
-        assertFalse(torchModule.getIsTorchEnabled());
+            callbackCaptorValue.onTorchModeChanged("0", false);
+            assertFalse(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(3)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertFalse(eventParams.getBoolean("enabled"));
+
+            callbackCaptorValue.onTorchModeChanged("0", true);
+            assertTrue(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(4)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertTrue(eventParams.getBoolean("enabled"));
+
+            callbackCaptorValue.onTorchModeChanged("0", true);
+            assertTrue(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(5)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertTrue(eventParams.getBoolean("enabled"));
+
+            callbackCaptorValue.onTorchModeChanged("1", true);
+            assertTrue(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(6)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertTrue(eventParams.getBoolean("enabled"));
+
+            callbackCaptorValue.onTorchModeChanged("1", false);
+            assertFalse(torchModule.getIsTorchEnabled());
+            verify(mockDeviceEventEmitter, times(7)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertTrue(eventParams.getBoolean("available"));
+            assertFalse(eventParams.getBoolean("enabled"));
+
+        } catch (CameraAccessException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testOnTorchModeUnavailable() {
+        try {
+            WritableMap eventParams;
+
+            doReturn(mockDeviceEventEmitter).when(reactApplicationContext).getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
+            doNothing().when(mockDeviceEventEmitter).emit(eq("TorchModule"), any(WritableMap.class));
+            doNothing().when(mockCameraManager).registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
+            ReflectionTestUtils.setField(torchModule, "isTorchEnabled", false);
+
+            when(mockCameraManager.getCameraIdList()).thenReturn(new String[]{"0"});
+            when(mockCameraManager.getCameraCharacteristics("0")).thenReturn(mockCameraCharacteristics);
+            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)).thenReturn(false);
+
+            torchModule.registerTorchCallback();
+            verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
+            BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
+
+            callbackCaptorValue.onTorchModeUnavailable("0");
+            verify(mockDeviceEventEmitter, times(1)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertFalse(eventParams.getBoolean("available"));
+            assertFalse(eventParams.getBoolean("enabled"));
+
+            callbackCaptorValue.onTorchModeUnavailable("0");
+            verify(mockDeviceEventEmitter, times(2)).emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+            eventParams = eventParamsCaptor.getValue();
+            assertFalse(eventParams.getBoolean("available"));
+            assertFalse(eventParams.getBoolean("enabled"));
+
+        } catch (CameraAccessException e) {
+            fail();
+        }
     }
 
     @Test
@@ -162,5 +254,6 @@ public class BgReactNativeTorchModuleTest {
     public void tearDown() {
         reset(mockCameraManager);
         reset(mockCameraCharacteristics);
+        reset(reactApplicationContext);
     }
 }

@@ -4,15 +4,13 @@ import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-
-import java.util.function.Function;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
@@ -33,7 +31,8 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      *                 unavailable
      */
     @Override
-    public void onTorchModeUnavailable(String cameraId) {
+    public void onTorchModeUnavailable(@NonNull String cameraId) {
+        torchModule.isTorchEnabled = false;
         emitTorchEvent();
     }
 
@@ -46,7 +45,7 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      * @param enabled  The new mode of the torch
      */
     @Override
-    public void onTorchModeChanged(String cameraId, boolean enabled) {
+    public void onTorchModeChanged(@NonNull String cameraId, boolean enabled) {
         torchModule.isTorchEnabled = enabled;
         emitTorchEvent();
     }
@@ -59,12 +58,8 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
         WritableMap params = new JavaOnlyMap();
         params.putBoolean("enabled", torchModule.getIsTorchEnabled());
         params.putBoolean("available", torchModule.getIsTorchAvailable());
-        try {
-            reactContext
-                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("TorchStateChange", params);
-        } catch (IllegalStateException e) {
-            Log.e("BgTorchModule", "Could not emit TorchStateChange event because React instance is not fully set up");
-        }
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("TorchStateChange", params);
     }
 }

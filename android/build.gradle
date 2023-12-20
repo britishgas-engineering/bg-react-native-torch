@@ -43,7 +43,6 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-android:0.71.14'
-//    implementation 'org.springframework:spring-context:6.1.1'
 
     testImplementation 'com.facebook.react:react-android:0.71.14'
     testImplementation 'junit:junit:4.12'
@@ -52,8 +51,4 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.10.3'
     testImplementation 'org.conscrypt:conscrypt-openjdk-uber:2.5.2'
     testImplementation 'org.springframework:spring-test:6.1.1'
-
-
-//    testImplementation 'androidx.test.ext:junit-ktx:+'
-//
 }
