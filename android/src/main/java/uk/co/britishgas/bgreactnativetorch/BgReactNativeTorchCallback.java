@@ -2,12 +2,11 @@ package uk.co.britishgas.bgreactnativetorch;
 
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.facebook.react.bridge.JavaOnlyMap;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -32,10 +31,10 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      */
     @Override
     public void onTorchModeUnavailable(@NonNull String cameraId) {
+        super.onTorchModeUnavailable(cameraId);
         torchModule.isTorchEnabled = false;
         emitTorchEvent();
     }
-
 
     /**
      * When the torch is turned on or off, send a torch event with the current torch
@@ -46,6 +45,7 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      */
     @Override
     public void onTorchModeChanged(@NonNull String cameraId, boolean enabled) {
+        super.onTorchModeChanged(cameraId, enabled);
         torchModule.isTorchEnabled = enabled;
         emitTorchEvent();
     }
@@ -55,11 +55,12 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      * enabled state and the availability state
      */
     private void emitTorchEvent() {
-        WritableMap params = new JavaOnlyMap();
-        params.putBoolean("enabled", torchModule.getIsTorchEnabled());
-        params.putBoolean("available", torchModule.getIsTorchAvailable());
+        WritableMap eventBody = Arguments.createMap();
+        eventBody.putBoolean("enabled", torchModule.getIsTorchEnabled());
+        eventBody.putBoolean("available", torchModule.getIsTorchAvailable());
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("TorchStateChange", params);
+                .emit("TorchStateChange", eventBody);
     }
+
 }

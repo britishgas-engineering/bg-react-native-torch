@@ -9,6 +9,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -22,6 +24,8 @@ import android.hardware.camera2.CameraManager;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -35,15 +39,24 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.mockito.stubbing.Answer;
+//import org.powermock.api.mockito.PowerMockito;
+//import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchCallback;
 import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchModule;
+import uk.co.britishgas.bgreactnativetorch.BuildConfig;
 
 // TODO: Figure out testing for Android < 6
 // To test the events being emitted, partial mocks?
@@ -53,6 +66,8 @@ import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchModule;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 33)
+//@PrepareForTest(Arguments.class)
+//@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "com.sun.org.apache.xerces.*", "javax.xml.*", "javax.xml.transform.*", "org.xml.*", "javax.management.*", "javax.net.ssl.*", "com.sun.org.apache.xalan.internal.xsltc.trax.*"})
 public class BgReactNativeTorchModuleTest {
 
     @Rule
@@ -67,6 +82,9 @@ public class BgReactNativeTorchModuleTest {
 
     @Mock
     private DeviceEventManagerModule.RCTDeviceEventEmitter mockDeviceEventEmitter;
+
+//    @Mock
+//    MockedStatic<Arguments> mockArguments = mockStatic(Arguments.class);
 
     @Captor
     ArgumentCaptor<BgReactNativeTorchCallback> callbackCaptor;
@@ -118,7 +136,7 @@ public class BgReactNativeTorchModuleTest {
 
     @Test
     public void testOnTorchModeChanged() {
-        try {
+        try (MockedStatic<Arguments> mockArguments = mockStatic(Arguments.class)) {
             WritableMap eventParams;
 
             doReturn(mockDeviceEventEmitter).when(reactApplicationContext).getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
@@ -128,6 +146,8 @@ public class BgReactNativeTorchModuleTest {
             when(mockCameraManager.getCameraIdList()).thenReturn(new String[]{"0"});
             when(mockCameraManager.getCameraCharacteristics("0")).thenReturn(mockCameraCharacteristics);
             when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)).thenReturn(true);
+
+            mockArguments.when(Arguments::createMap).thenReturn(new JavaOnlyMap());
 
             torchModule.registerTorchCallback();
             verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
@@ -190,7 +210,7 @@ public class BgReactNativeTorchModuleTest {
 
     @Test
     public void testOnTorchModeUnavailable() {
-        try {
+        try (MockedStatic<Arguments> mockArguments = mockStatic(Arguments.class)) {
             WritableMap eventParams;
 
             doReturn(mockDeviceEventEmitter).when(reactApplicationContext).getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
@@ -201,6 +221,8 @@ public class BgReactNativeTorchModuleTest {
             when(mockCameraManager.getCameraIdList()).thenReturn(new String[]{"0"});
             when(mockCameraManager.getCameraCharacteristics("0")).thenReturn(mockCameraCharacteristics);
             when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)).thenReturn(false);
+
+            mockArguments.when(Arguments::createMap).thenReturn(new JavaOnlyMap());
 
             torchModule.registerTorchCallback();
             verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());

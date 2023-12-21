@@ -8,12 +8,10 @@ import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.util.Log;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
+
 
 /**
  * Controls the torch on a phone, and provides information about the torch's
@@ -23,7 +21,8 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
  * @version 0.1.0
  */
 public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
-    private final ReactApplicationContext reactContext;
+    final boolean SUPPORT_LEGACY_TORCH = false;
+//    private final ReactApplicationContext reactContext;
     private CameraManager cameraManager;
     private CameraManager.TorchCallback torchCallback;
     Boolean isTorchEnabled = false;
@@ -35,10 +34,10 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      */
     public BgReactNativeTorchModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
+//        this.reactContext = reactContext;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cameraManager = (CameraManager) this.reactContext.getSystemService(Context.CAMERA_SERVICE);
+            cameraManager = (CameraManager) reactContext.getSystemService(Context.CAMERA_SERVICE);
             torchCallback = new BgReactNativeTorchCallback(this, reactContext);
         }
     }
@@ -73,21 +72,13 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
     public Boolean getIsTorchEnabled() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return isTorchEnabled;
-        } else {
+        } else if (SUPPORT_LEGACY_TORCH) {
             // Need to test this with Android < 6
             return Camera.open().getParameters().getFlashMode() == Camera.Parameters.FLASH_MODE_TORCH;
+        } else {
+            return false;
         }
     }
-
-
-//    /**
-//     * Setter for the torch enabled variable (this will not actually control the torch, see setStateEnabled for that)
-//     *
-//     * @param newState The new state for the isTorchEnabled variable
-//     */
-//    public void setIsTorchEnabled(boolean newState) {
-//        isTorchEnabled = newState;
-//    }
 
     /**
      * Get the current availability state of the torch
@@ -112,8 +103,10 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
                 Log.e("TorchModule", "Error: " + e.getMessage());
                 return false;
             }
-        } else {
+        } else if (SUPPORT_LEGACY_TORCH) {
             return !(Camera.open() == null);
+        } else {
+            return false;
         }
     }
 
@@ -131,7 +124,7 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
             } catch (Exception e) {
                 Log.e("TorchModule", "Error: " + e.getMessage());
             }
-        } else {
+        } else if (SUPPORT_LEGACY_TORCH) {
             Camera camera = Camera.open();
             if (camera == null) {
                 return;
@@ -156,6 +149,14 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void removeListeners(Integer count) {
+        //Keep: Required for RN built in Event Emitter Calls
+    }
+
+    /**
+     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener is added.
+     */
+    @ReactMethod
+    public void addListener(String eventName) {
         //Keep: Required for RN built in Event Emitter Calls
     }
 }
