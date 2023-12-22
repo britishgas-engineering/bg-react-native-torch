@@ -44,3 +44,5 @@ buck-out/
 *.code-workspace
 
 /bg-react-native-torch-*.tgz
+
+.jest/
