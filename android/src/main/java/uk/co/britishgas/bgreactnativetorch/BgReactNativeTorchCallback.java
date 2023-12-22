@@ -13,10 +13,13 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
-    private BgReactNativeTorchModule torchModule;
-    private ReactApplicationContext reactContext;
+    private final BgReactNativeTorchModule torchModule;
+    private final ReactApplicationContext reactContext;
 
-    public BgReactNativeTorchCallback(BgReactNativeTorchModule torchModule, ReactApplicationContext reactContext) {
+    public BgReactNativeTorchCallback(
+            BgReactNativeTorchModule torchModule,
+            ReactApplicationContext reactContext
+    ) {
         super();
         this.torchModule = torchModule;
         this.reactContext = reactContext;
@@ -62,5 +65,4 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("TorchStateChange", eventBody);
     }
-
 }

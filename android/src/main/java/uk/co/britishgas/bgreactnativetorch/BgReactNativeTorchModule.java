@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.util.Objects;
 
 /**
  * Controls the torch on a phone, and provides information about the torch's
@@ -22,7 +23,6 @@ import com.facebook.react.bridge.ReactMethod;
  */
 public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
     final boolean SUPPORT_LEGACY_TORCH = false;
-//    private final ReactApplicationContext reactContext;
     private CameraManager cameraManager;
     private CameraManager.TorchCallback torchCallback;
     Boolean isTorchEnabled = false;
@@ -34,7 +34,7 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      */
     public BgReactNativeTorchModule(ReactApplicationContext reactContext) {
         super(reactContext);
-//        this.reactContext = reactContext;
+        // this.reactContext = reactContext;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             cameraManager = (CameraManager) reactContext.getSystemService(Context.CAMERA_SERVICE);
@@ -74,7 +74,10 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
             return isTorchEnabled;
         } else if (SUPPORT_LEGACY_TORCH) {
             // Need to test this with Android < 6
-            return Camera.open().getParameters().getFlashMode() == Camera.Parameters.FLASH_MODE_TORCH;
+            return Objects.equals(
+                    Camera.open().getParameters().getFlashMode(),
+                    Camera.Parameters.FLASH_MODE_TORCH
+            );
         } else {
             return false;
         }
@@ -145,18 +148,20 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener is removed.
+     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener
+     * is removed.
      */
     @ReactMethod
     public void removeListeners(Integer count) {
-        //Keep: Required for RN built in Event Emitter Calls
+        // Keep: Required for RN built in Event Emitter Calls
     }
 
     /**
-     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener is added.
+     * This is called when a BgReactNativeTorchModule NativeEventEmitter's listener
+     * is added.
      */
     @ReactMethod
     public void addListener(String eventName) {
-        //Keep: Required for RN built in Event Emitter Calls
+        // Keep: Required for RN built in Event Emitter Calls
     }
 }

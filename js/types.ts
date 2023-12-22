@@ -1,4 +1,4 @@
 export interface TorchState {
-    enabled: boolean;
-    available: boolean;
-  }
+  enabled: boolean;
+  available: boolean;
+}
