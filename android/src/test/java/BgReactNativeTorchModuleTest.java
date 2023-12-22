@@ -262,6 +262,7 @@ public class BgReactNativeTorchModuleTest {
             callbackCaptorValue.onTorchModeUnavailable("0");
             verify(mockDeviceEventEmitter, times(2))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
+                    
             eventParams = eventParamsCaptor.getValue();
 
             assertFalse(eventParams.getBoolean("available"));
