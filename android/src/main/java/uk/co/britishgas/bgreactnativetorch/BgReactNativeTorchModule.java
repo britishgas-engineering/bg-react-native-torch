@@ -34,7 +34,6 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      */
     public BgReactNativeTorchModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        // this.reactContext = reactContext;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             cameraManager = (CameraManager) reactContext.getSystemService(Context.CAMERA_SERVICE);
