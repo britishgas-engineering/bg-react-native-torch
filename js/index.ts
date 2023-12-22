@@ -32,7 +32,6 @@ const getAvailableState = (): boolean => {
 };
 
 const registerTorchCallback = () => {
-  console.log("REGISTERING");
   BgReactNativeTorch.registerTorchCallback();
 };
 
