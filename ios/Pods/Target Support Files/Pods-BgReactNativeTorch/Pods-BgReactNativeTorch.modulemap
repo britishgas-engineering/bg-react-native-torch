@@ -1,6 +1,0 @@
-framework module Pods_BgReactNativeTorch {
-  umbrella header "Pods-BgReactNativeTorch-umbrella.h"
-
-  export *
-  module * { export * }
-}

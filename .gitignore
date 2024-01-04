@@ -48,3 +48,4 @@ buck-out/
 .jest/
 
 ios/build/
+ios/Pods/
