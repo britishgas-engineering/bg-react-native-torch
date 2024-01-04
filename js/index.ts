@@ -23,11 +23,11 @@ const BgReactNativeTorch = NativeModules.BgReactNativeTorch
 
 BgReactNativeTorch.registerTorchCallback();
 
-const getEnabledState = (): boolean => {
+const getEnabledState = (): Promise<boolean> => {
   return BgReactNativeTorch.getIsTorchEnabled();
 };
 
-const getAvailableState = (): boolean => {
+const getAvailableState = (): Promise<boolean> => {
   return BgReactNativeTorch.getIsTorchAvailable();
 };
 

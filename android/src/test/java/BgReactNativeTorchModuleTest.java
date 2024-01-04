@@ -90,9 +90,10 @@ public class BgReactNativeTorchModuleTest {
 
     @Test
     public void testGetIsTorchAvailable() {
+
         try {
             when(mockCameraManager.getCameraIdList()).thenReturn(new String[] {});
-            assertFalse(torchModule.getIsTorchAvailable());
+            torchModule.getIsTorchAvailable(new MockBoolPromise(false));
 
             when(mockCameraManager.getCameraIdList()).thenReturn(new String[] { "0" });
             when(mockCameraManager.getCameraCharacteristics("0"))
@@ -100,12 +101,12 @@ public class BgReactNativeTorchModuleTest {
 
             when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
                     .thenReturn(false);
-            assertFalse(torchModule.getIsTorchAvailable());
+            torchModule.getIsTorchAvailable(new MockBoolPromise(false));
 
             when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
                     .thenReturn(true);
 
-            assertTrue(torchModule.getIsTorchAvailable());
+            torchModule.getIsTorchAvailable(new MockBoolPromise(true));
 
         } catch (Exception e) {
             fail();
@@ -115,9 +116,9 @@ public class BgReactNativeTorchModuleTest {
     @Test
     public void testGetIsTorchEnabled() {
         ReflectionTestUtils.setField(torchModule, "isTorchEnabled", false);
-        assertFalse(torchModule.getIsTorchEnabled());
+        torchModule.getIsTorchEnabled(new MockBoolPromise(false));
         ReflectionTestUtils.setField(torchModule, "isTorchEnabled", true);
-        assertTrue(torchModule.getIsTorchEnabled());
+        torchModule.getIsTorchEnabled(new MockBoolPromise(true));
     }
 
     @Test
@@ -151,7 +152,7 @@ public class BgReactNativeTorchModuleTest {
             BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
 
             callbackCaptorValue.onTorchModeChanged("0", true);
-            assertTrue(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(true));
             verify(mockDeviceEventEmitter, times(1))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -160,7 +161,7 @@ public class BgReactNativeTorchModuleTest {
             assertTrue(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("0", false);
-            assertFalse(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(false));
             verify(mockDeviceEventEmitter, times(2))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -169,7 +170,7 @@ public class BgReactNativeTorchModuleTest {
             assertFalse(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("0", false);
-            assertFalse(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(false));
             verify(mockDeviceEventEmitter, times(3))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -178,7 +179,7 @@ public class BgReactNativeTorchModuleTest {
             assertFalse(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("0", true);
-            assertTrue(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(true));
             verify(mockDeviceEventEmitter, times(4))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -187,7 +188,7 @@ public class BgReactNativeTorchModuleTest {
             assertTrue(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("0", true);
-            assertTrue(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(true));
             verify(mockDeviceEventEmitter, times(5))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -196,7 +197,7 @@ public class BgReactNativeTorchModuleTest {
             assertTrue(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("1", true);
-            assertTrue(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(true));
             verify(mockDeviceEventEmitter, times(6))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -205,7 +206,7 @@ public class BgReactNativeTorchModuleTest {
             assertTrue(eventParams.getBoolean("enabled"));
 
             callbackCaptorValue.onTorchModeChanged("1", false);
-            assertFalse(torchModule.getIsTorchEnabled());
+            torchModule.getIsTorchEnabled(new MockBoolPromise(false));
             verify(mockDeviceEventEmitter, times(7))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
 
@@ -262,7 +263,7 @@ public class BgReactNativeTorchModuleTest {
             callbackCaptorValue.onTorchModeUnavailable("0");
             verify(mockDeviceEventEmitter, times(2))
                     .emit(eq("TorchStateChange"), eventParamsCaptor.capture());
-                    
+
             eventParams = eventParamsCaptor.getValue();
 
             assertFalse(eventParams.getBoolean("available"));
