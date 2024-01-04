@@ -11,6 +11,7 @@ import android.util.Log;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.Promise;
 
 import java.util.Objects;
 
@@ -67,16 +68,19 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      * 
      * @return Whether the torch is currently enabled
      */
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public Boolean getIsTorchEnabled() {
+    @ReactMethod
+    public void getIsTorchEnabled(Promise promise) {
+        promise.resolve(checkEnabledState());
+    }
+
+    public boolean checkEnabledState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return isTorchEnabled;
         } else if (SUPPORT_LEGACY_TORCH) {
             // Need to test this with Android < 6
             return Objects.equals(
                     Camera.open().getParameters().getFlashMode(),
-                    Camera.Parameters.FLASH_MODE_TORCH
-            );
+                    Camera.Parameters.FLASH_MODE_TORCH);
         } else {
             return false;
         }
@@ -87,8 +91,12 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      * 
      * @return Whether the torch is currently available
      */
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public Boolean getIsTorchAvailable() {
+    @ReactMethod
+    public void getIsTorchAvailable(Promise promise) {
+        promise.resolve(checkAvailabilityState());
+    }
+
+    public boolean checkAvailabilityState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 String[] cameraIds = cameraManager.getCameraIdList();
