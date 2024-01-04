@@ -18,8 +18,7 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
 
     public BgReactNativeTorchCallback(
             BgReactNativeTorchModule torchModule,
-            ReactApplicationContext reactContext
-    ) {
+            ReactApplicationContext reactContext) {
         super();
         this.torchModule = torchModule;
         this.reactContext = reactContext;
@@ -59,8 +58,8 @@ public class BgReactNativeTorchCallback extends CameraManager.TorchCallback {
      */
     private void emitTorchEvent() {
         WritableMap eventBody = Arguments.createMap();
-        eventBody.putBoolean("enabled", torchModule.getIsTorchEnabled());
-        eventBody.putBoolean("available", torchModule.getIsTorchAvailable());
+        eventBody.putBoolean("enabled", torchModule.checkEnabledState());
+        eventBody.putBoolean("available", torchModule.checkAvailabilityState());
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("TorchStateChange", eventBody);
