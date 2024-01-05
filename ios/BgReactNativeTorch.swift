@@ -26,12 +26,20 @@ class BgReactNativeTorch: RCTEventEmitter {
         }
     }
 
-    @objc func getIsTorchEnabled() -> Bool {
+    @objc func getIsTorchEnabled(resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) -> Void {
+        resolver(checkEnabledState())
+    }
+    
+    func checkEnabledState() -> Bool {
         return device?.isTorchActive ?? false
         // Should maybe be checking device.torchMode instead?
     }
 
-    @objc func getIsTorchAvailable() -> Bool {
+    @objc func getIsTorchAvailable(resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) -> Void {
+        resolver(checkAvailabilityState())
+    }
+    
+    func checkAvailabilityState() -> Bool {
         return device?.isTorchAvailable ?? false
     }
     
@@ -43,8 +51,8 @@ class BgReactNativeTorch: RCTEventEmitter {
         sendEvent(
             withName: "TorchStateChange",
             body: [
-                "available": getIsTorchAvailable(),
-                "enabled": getIsTorchEnabled()
+                "available": checkAvailabilityState(),
+                "enabled": checkEnabledState()
             ]
         )
     }
