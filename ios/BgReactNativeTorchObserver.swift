@@ -2,11 +2,11 @@ import AVFoundation
 import React
 
 class BgReactNativeTorchObserver: NSObject {
-    @objc var device: AVCaptureDevice
+    var device: CameraProtocol
     var availableObservation: NSKeyValueObservation?
     var activeObservation: NSKeyValueObservation?
 
-    init(deviceToObserve: AVCaptureDevice, torchModule: BgReactNativeTorch) {
+    init(deviceToObserve: CameraProtocol, torchModule: BgReactNativeTorch) {
         device = deviceToObserve
         super.init()
         

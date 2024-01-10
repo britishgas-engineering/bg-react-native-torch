@@ -1,11 +1,26 @@
 import AVFoundation
 import React
 
+extension AVCaptureDevice: CameraProtocol {}
 
 @objc(BgReactNativeTorch)
 class BgReactNativeTorch: RCTEventEmitter {
-    let device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
+    var device: CameraProtocol? = AVCaptureDevice.default(for: AVMediaType.video)
     var observer: BgReactNativeTorchObserver? = nil
+    
+    // TODO: Start here
+    // JUST ADDED THIS
+    // Can use protocols or something here
+    // Then you extend AVCaptureDevice with the protocol?
+    // And then you can pass in a mock of AVCaptureDevice (think you have to make it yourself)
+    init(
+        device: CameraProtocol? = AVCaptureDevice.default(for: AVMediaType.video),
+        observer: BgReactNativeTorchObserver? = nil
+    ) {
+        self.device = device
+        self.observer = observer
+        super.init()
+    }
 
     @objc func registerTorchCallback() -> Void {
         if (device != nil) {

@@ -8,10 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		61C79E00D9339E0E855FA46E /* libPods-BgReactNativeTorch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EA801A60CC4D23BB8D8F4D7 /* libPods-BgReactNativeTorch.a */; };
-		8B1CBB8F2B4436BD00D5F316 /* BgReactNativeTorch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1CBB8E2B4436BD00D5F316 /* BgReactNativeTorch.swift */; };
-		8B1CBB912B44370600D5F316 /* BgReactNativeTorchBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1CBB902B44370600D5F316 /* BgReactNativeTorchBridge.m */; };
-		8B5415E42B4475EB00C92098 /* BgReactNativeTorchObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5415E32B4475EB00C92098 /* BgReactNativeTorchObserver.swift */; };
+		8B078D0D2B48100300A743C8 /* BgReactNativeTorchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B078D0C2B48100300A743C8 /* BgReactNativeTorchTests.swift */; };
+		8B078D0E2B48100300A743C8 /* libBgReactNativeTorch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 134814201AA4EA6300B7C361 /* libBgReactNativeTorch.a */; };
+		8B078D162B48338A00A743C8 /* MockBoolPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B078D152B48338A00A743C8 /* MockBoolPromise.swift */; };
+		8B47E8752B4C4B8500C3B09E /* MockAVCaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E8742B4C4B8500C3B09E /* MockAVCaptureDevice.swift */; };
+		8B68F7D82B4ED7BA00236A95 /* BgReactNativeTorch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1CBB8E2B4436BD00D5F316 /* BgReactNativeTorch.swift */; };
+		8B68F7D92B4ED80D00236A95 /* BgReactNativeTorchObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5415E32B4475EB00C92098 /* BgReactNativeTorchObserver.swift */; };
+		8B68F7DA2B4ED81F00236A95 /* CameraProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E8722B4C36A500C3B09E /* CameraProtocol.swift */; };
+		8B68F7DC2B4EF7B300236A95 /* BgReactNativeTorchBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1CBB902B44370600D5F316 /* BgReactNativeTorchBridge.m */; };
+		BED7544CF975A5D068435D11 /* libPods-BgReactNativeTorch-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 567B317D5680F4EA28D580D4 /* libPods-BgReactNativeTorch-Tests.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8B078D0F2B48100300A743C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58B511D31A9E6C8500147676 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
+			remoteInfo = BgReactNativeTorch;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		58B511D91A9E6C8500147676 /* CopyFiles */ = {
@@ -28,12 +44,20 @@
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libBgReactNativeTorch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBgReactNativeTorch.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA801A60CC4D23BB8D8F4D7 /* libPods-BgReactNativeTorch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BgReactNativeTorch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		24458779A68F258FF22FD02D /* Pods-BgReactNativeTorch-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BgReactNativeTorch-Tests.debug.xcconfig"; path = "Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D81E2ECC74405F06C048D35 /* Pods-BgReactNativeTorch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BgReactNativeTorch.debug.xcconfig"; path = "Target Support Files/Pods-BgReactNativeTorch/Pods-BgReactNativeTorch.debug.xcconfig"; sourceTree = "<group>"; };
+		3F58637605366BBA86D365E1 /* Pods-BgReactNativeTorch-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BgReactNativeTorch-Tests.release.xcconfig"; path = "Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		54E347B9FCDD645ED9627B00 /* Pods-BgReactNativeTorch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BgReactNativeTorch.release.xcconfig"; path = "Target Support Files/Pods-BgReactNativeTorch/Pods-BgReactNativeTorch.release.xcconfig"; sourceTree = "<group>"; };
-		8B1CBB8D2B4436BD00D5F316 /* BgReactNativeTorch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BgReactNativeTorch-Bridging-Header.h"; sourceTree = "<group>"; };
+		567B317D5680F4EA28D580D4 /* libPods-BgReactNativeTorch-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BgReactNativeTorch-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B078D0A2B48100300A743C8 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B078D0C2B48100300A743C8 /* BgReactNativeTorchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgReactNativeTorchTests.swift; sourceTree = "<group>"; };
+		8B078D152B48338A00A743C8 /* MockBoolPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBoolPromise.swift; sourceTree = "<group>"; };
 		8B1CBB8E2B4436BD00D5F316 /* BgReactNativeTorch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgReactNativeTorch.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		8B1CBB902B44370600D5F316 /* BgReactNativeTorchBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BgReactNativeTorchBridge.m; sourceTree = "<group>"; };
+		8B47E8722B4C36A500C3B09E /* CameraProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraProtocol.swift; sourceTree = "<group>"; };
+		8B47E8742B4C4B8500C3B09E /* MockAVCaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAVCaptureDevice.swift; sourceTree = "<group>"; };
 		8B5415E32B4475EB00C92098 /* BgReactNativeTorchObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgReactNativeTorchObserver.swift; sourceTree = "<group>"; };
+		8B68F7CF2B4EC94700236A95 /* BgReactNativeTorch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BgReactNativeTorch-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +66,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				61C79E00D9339E0E855FA46E /* libPods-BgReactNativeTorch.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B078D072B48100300A743C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B078D0E2B48100300A743C8 /* libBgReactNativeTorch.a in Frameworks */,
+				BED7544CF975A5D068435D11 /* libPods-BgReactNativeTorch-Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				1EA801A60CC4D23BB8D8F4D7 /* libPods-BgReactNativeTorch.a */,
+				567B317D5680F4EA28D580D4 /* libPods-BgReactNativeTorch-Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -67,13 +101,16 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				8B078D0B2B48100300A743C8 /* Tests */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				8B5415E32B4475EB00C92098 /* BgReactNativeTorchObserver.swift */,
-				8B1CBB8D2B4436BD00D5F316 /* BgReactNativeTorch-Bridging-Header.h */,
 				8B1CBB8E2B4436BD00D5F316 /* BgReactNativeTorch.swift */,
+				8B47E8722B4C36A500C3B09E /* CameraProtocol.swift */,
+				8B68F7CF2B4EC94700236A95 /* BgReactNativeTorch-Bridging-Header.h */,
 				8B1CBB902B44370600D5F316 /* BgReactNativeTorchBridge.m */,
 				720297E41DAA1548FB6A011D /* Pods */,
 				3BFFED81FEA75E6251F99A9C /* Frameworks */,
+				8B078D0A2B48100300A743C8 /* Tests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,8 +119,20 @@
 			children = (
 				3D81E2ECC74405F06C048D35 /* Pods-BgReactNativeTorch.debug.xcconfig */,
 				54E347B9FCDD645ED9627B00 /* Pods-BgReactNativeTorch.release.xcconfig */,
+				24458779A68F258FF22FD02D /* Pods-BgReactNativeTorch-Tests.debug.xcconfig */,
+				3F58637605366BBA86D365E1 /* Pods-BgReactNativeTorch-Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		8B078D0B2B48100300A743C8 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8B078D0C2B48100300A743C8 /* BgReactNativeTorchTests.swift */,
+				8B078D152B48338A00A743C8 /* MockBoolPromise.swift */,
+				8B47E8742B4C4B8500C3B09E /* MockAVCaptureDevice.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,18 +156,44 @@
 			productReference = 134814201AA4EA6300B7C361 /* libBgReactNativeTorch.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		8B078D092B48100300A743C8 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B078D132B48161100A743C8 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				9A4A302B4A15AF5385191A2B /* [CP] Check Pods Manifest.lock */,
+				8B078D062B48100300A743C8 /* Sources */,
+				8B078D072B48100300A743C8 /* Frameworks */,
+				8B078D082B48100300A743C8 /* Resources */,
+				D1329CCD3ED4ED33ED746859 /* [CP] Embed Pods Frameworks */,
+				29BC91354DE0CD33A15C9DB0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B078D102B48100300A743C8 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = 8B078D0A2B48100300A743C8 /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
 						CreatedOnToolsVersion = 6.1.1;
 						LastSwiftMigration = 1510;
+					};
+					8B078D092B48100300A743C8 = {
+						CreatedOnToolsVersion = 15.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -136,11 +211,40 @@
 			projectRoot = "";
 			targets = (
 				58B511DA1A9E6C8500147676 /* BgReactNativeTorch */,
+				8B078D092B48100300A743C8 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		8B078D082B48100300A743C8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXShellScriptBuildPhase section */
+		29BC91354DE0CD33A15C9DB0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/RCTI18nStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCTI18nStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4C6C613CA5684FE9FB6EC886 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,6 +267,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9A4A302B4A15AF5385191A2B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BgReactNativeTorch-Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D1329CCD3ED4ED33ED746859 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BgReactNativeTorch-Tests/Pods-BgReactNativeTorch-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -170,13 +314,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B1CBB8F2B4436BD00D5F316 /* BgReactNativeTorch.swift in Sources */,
-				8B1CBB912B44370600D5F316 /* BgReactNativeTorchBridge.m in Sources */,
-				8B5415E42B4475EB00C92098 /* BgReactNativeTorchObserver.swift in Sources */,
+				8B68F7DC2B4EF7B300236A95 /* BgReactNativeTorchBridge.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B078D062B48100300A743C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B47E8752B4C4B8500C3B09E /* MockAVCaptureDevice.swift in Sources */,
+				8B68F7D82B4ED7BA00236A95 /* BgReactNativeTorch.swift in Sources */,
+				8B68F7D92B4ED80D00236A95 /* BgReactNativeTorchObserver.swift in Sources */,
+				8B078D0D2B48100300A743C8 /* BgReactNativeTorchTests.swift in Sources */,
+				8B68F7DA2B4ED81F00236A95 /* CameraProtocol.swift in Sources */,
+				8B078D162B48338A00A743C8 /* MockBoolPromise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B078D102B48100300A743C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58B511DA1A9E6C8500147676 /* BgReactNativeTorch */;
+			targetProxy = 8B078D0F2B48100300A743C8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		58B511ED1A9E6C8500147676 /* Debug */ = {
@@ -213,7 +376,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -281,7 +444,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -351,6 +514,201 @@
 			};
 			name = Release;
 		};
+		8B078D112B48100400A743C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24458779A68F258FF22FD02D /* Pods-BgReactNativeTorch-Tests.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-v",
+					"-l\"DoubleConversion\"",
+					"-l\"RCT-Folly\"",
+					"-l\"RCTTypeSafety\"",
+					"-l\"React-Codegen\"",
+					"-l\"React-Core\"",
+					"-l\"React-CoreModules\"",
+					"-l\"React-Fabric\"",
+					"-l\"React-FabricImage\"",
+					"-l\"React-ImageManager\"",
+					"-l\"React-Mapbuffer\"",
+					"-l\"React-NativeModulesApple\"",
+					"-l\"React-RCTAnimation\"",
+					"-l\"React-RCTAppDelegate\"",
+					"-l\"React-RCTBlob\"",
+					"-l\"React-RCTFabric\"",
+					"-l\"React-RCTImage\"",
+					"-l\"React-RCTLinking\"",
+					"-l\"React-RCTNetwork\"",
+					"-l\"React-RCTSettings\"",
+					"-l\"React-RCTText\"",
+					"-l\"React-RCTVibration\"",
+					"-l\"React-cxxreact\"",
+					"-l\"React-debug\"",
+					"-l\"React-graphics\"",
+					"-l\"React-hermes\"",
+					"-l\"React-jserrorhandler\"",
+					"-l\"React-jsi\"",
+					"-l\"React-jsiexecutor\"",
+					"-l\"React-jsinspector\"",
+					"-l\"React-logger\"",
+					"-l\"React-nativeconfig\"",
+					"-l\"React-perflogger\"",
+					"-l\"React-rendererdebug\"",
+					"-l\"React-runtimescheduler\"",
+					"-l\"React-utils\"",
+					"-l\"ReactCommon\"",
+					"-l\"SocketRocket\"",
+					"-l\"Yoga\"",
+					"-l\"c++\"",
+					"-l\"c++abi\"",
+					"-l\"fmt\"",
+					"-l\"glog\"",
+					"-l\"icucore\"",
+					"-l\"libevent\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"hermes\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = britishgas.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "BgReactNativeTorch-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8B078D122B48100400A743C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F58637605366BBA86D365E1 /* Pods-BgReactNativeTorch-Tests.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-v",
+					"-l\"DoubleConversion\"",
+					"-l\"RCT-Folly\"",
+					"-l\"RCTTypeSafety\"",
+					"-l\"React-Codegen\"",
+					"-l\"React-Core\"",
+					"-l\"React-CoreModules\"",
+					"-l\"React-Fabric\"",
+					"-l\"React-FabricImage\"",
+					"-l\"React-ImageManager\"",
+					"-l\"React-Mapbuffer\"",
+					"-l\"React-NativeModulesApple\"",
+					"-l\"React-RCTAnimation\"",
+					"-l\"React-RCTAppDelegate\"",
+					"-l\"React-RCTBlob\"",
+					"-l\"React-RCTFabric\"",
+					"-l\"React-RCTImage\"",
+					"-l\"React-RCTLinking\"",
+					"-l\"React-RCTNetwork\"",
+					"-l\"React-RCTSettings\"",
+					"-l\"React-RCTText\"",
+					"-l\"React-RCTVibration\"",
+					"-l\"React-cxxreact\"",
+					"-l\"React-debug\"",
+					"-l\"React-graphics\"",
+					"-l\"React-hermes\"",
+					"-l\"React-jserrorhandler\"",
+					"-l\"React-jsi\"",
+					"-l\"React-jsiexecutor\"",
+					"-l\"React-jsinspector\"",
+					"-l\"React-logger\"",
+					"-l\"React-nativeconfig\"",
+					"-l\"React-perflogger\"",
+					"-l\"React-rendererdebug\"",
+					"-l\"React-runtimescheduler\"",
+					"-l\"React-utils\"",
+					"-l\"ReactCommon\"",
+					"-l\"SocketRocket\"",
+					"-l\"Yoga\"",
+					"-l\"c++\"",
+					"-l\"c++abi\"",
+					"-l\"fmt\"",
+					"-l\"glog\"",
+					"-l\"icucore\"",
+					"-l\"libevent\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"hermes\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = britishgas.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "BgReactNativeTorch-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,6 +726,15 @@
 			buildConfigurations = (
 				58B511F01A9E6C8500147676 /* Debug */,
 				58B511F11A9E6C8500147676 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B078D132B48161100A743C8 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B078D112B48100400A743C8 /* Debug */,
+				8B078D122B48100400A743C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
