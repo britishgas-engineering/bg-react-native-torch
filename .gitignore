@@ -46,3 +46,6 @@ buck-out/
 /bg-react-native-torch-*.tgz
 
 .jest/
+
+ios/build/
+ios/Pods/
