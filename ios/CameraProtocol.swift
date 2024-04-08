@@ -1,6 +1,6 @@
 import AVFoundation
 
-public protocol CameraProtocol: NSObjectProtocol {
+@objc public protocol CameraProtocol: NSObjectProtocol {
     var torchMode: AVCaptureDevice.TorchMode { get set }
     // These might need to have @objc for KVO, but that breaks something
     dynamic var isTorchActive: Bool { get }

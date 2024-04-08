@@ -17,14 +17,17 @@ class BgReactNativeTorch: RCTEventEmitter {
         device: CameraProtocol? = AVCaptureDevice.default(for: AVMediaType.video),
         observer: BgReactNativeTorchObserver? = nil
     ) {
+        print("Initialising BgReactNativeTorch")
         self.device = device
         self.observer = observer
         super.init()
     }
 
     @objc func registerTorchCallback() -> Void {
+        print("Attempting to register torch callback")
         if (device != nil) {
             observer = BgReactNativeTorchObserver(deviceToObserve: device!, torchModule: self)
+            print("Successfully registered callback")
         }
     }
 
@@ -46,6 +49,7 @@ class BgReactNativeTorch: RCTEventEmitter {
     }
     
     func checkEnabledState() -> Bool {
+        print("checkEnabledState() --> " + String(device?.isTorchActive ?? false))
         return device?.isTorchActive ?? false
         // Should maybe be checking device.torchMode instead?
     }
@@ -55,6 +59,7 @@ class BgReactNativeTorch: RCTEventEmitter {
     }
     
     func checkAvailabilityState() -> Bool {
+        print("checkAvailabilityState() --> " + String(device?.isTorchAvailable ?? false))
         return device?.isTorchAvailable ?? false
     }
     
@@ -63,6 +68,7 @@ class BgReactNativeTorch: RCTEventEmitter {
     }
     
     func emitEvent() {
+        print("Emitting event with available: " + String(checkAvailabilityState()) + " and enabled: " + String(checkEnabledState()))
         sendEvent(
             withName: "TorchStateChange",
             body: [
