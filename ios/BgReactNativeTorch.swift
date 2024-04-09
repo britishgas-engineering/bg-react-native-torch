@@ -1,11 +1,9 @@
 import AVFoundation
 import React
 
-extension AVCaptureDevice: CameraProtocol {}
-
 @objc(BgReactNativeTorch)
 class BgReactNativeTorch: RCTEventEmitter {
-    var device: CameraProtocol? = AVCaptureDevice.default(for: AVMediaType.video)
+    var device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
     var observer: BgReactNativeTorchObserver? = nil
     
     // TODO: Start here
@@ -13,8 +11,16 @@ class BgReactNativeTorch: RCTEventEmitter {
     // Can use protocols or something here
     // Then you extend AVCaptureDevice with the protocol?
     // And then you can pass in a mock of AVCaptureDevice (think you have to make it yourself)
+  
+    override init() {
+      print("Initialising BgReactNativeTorch")
+      self.device = AVCaptureDevice.default(for: AVMediaType.video)
+      self.observer = nil
+      super.init()
+    }
+  
     init(
-        device: CameraProtocol? = AVCaptureDevice.default(for: AVMediaType.video),
+        device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video),
         observer: BgReactNativeTorchObserver? = nil
     ) {
         print("Initialising BgReactNativeTorch")
@@ -31,31 +37,31 @@ class BgReactNativeTorch: RCTEventEmitter {
         }
     }
 
-    @objc func setStateEnabled(newState: Bool) -> Void {
-        let newTorchMode: AVCaptureDevice.TorchMode = newState ? AVCaptureDevice.TorchMode.on : AVCaptureDevice.TorchMode.off
-        if (device != nil && device?.isTorchModeSupported(newTorchMode) == true) {
-            do {
-                try device?.lockForConfiguration()
-                device?.torchMode = newTorchMode
-                device?.unlockForConfiguration()
-            } catch {
-                print("Unable to lock torch for configuration")
-            }
-        }
-    }
+    @objc(setStateEnabled:) func setStateEnabled(_ newState: Bool) -> Void {
+          let newTorchMode: AVCaptureDevice.TorchMode = newState ? AVCaptureDevice.TorchMode.on : AVCaptureDevice.TorchMode.off
+          if (device != nil && device?.isTorchModeSupported(newTorchMode) == true) {
+              do {
+                  try device?.lockForConfiguration()
+                  device?.torchMode = newTorchMode
+                  device?.unlockForConfiguration()
+              } catch {
+                  print("Unable to lock torch for configuration")
+              }
+          }
+      }
 
-    @objc func getIsTorchEnabled(resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) -> Void {
-        resolver(checkEnabledState())
-    }
-    
+    @objc(getIsTorchEnabled:rejecter:) func getIsTorchEnabled(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+          resolve(checkEnabledState())
+      }
+      
     func checkEnabledState() -> Bool {
         print("checkEnabledState() --> " + String(device?.isTorchActive ?? false))
         return device?.isTorchActive ?? false
         // Should maybe be checking device.torchMode instead?
     }
 
-    @objc func getIsTorchAvailable(resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) -> Void {
-        resolver(checkAvailabilityState())
+    @objc(getIsTorchAvailable:rejecter:) func getIsTorchAvailable(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+        resolve(checkAvailabilityState())
     }
     
     func checkAvailabilityState() -> Bool {

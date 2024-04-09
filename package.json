@@ -1,7 +1,7 @@
 {
   "name": "bg-react-native-torch",
   "title": "Bg React Native Torch",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "description": "TODO",
   "main": "js/index.ts",
   "type": "module",
