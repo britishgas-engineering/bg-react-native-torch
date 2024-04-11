@@ -23,18 +23,22 @@ const BgReactNativeTorch = NativeModules.BgReactNativeTorch
 
 BgReactNativeTorch.registerTorchCallback();
 
+// Check whether the torch is turned on (true) or off (false)
 const getEnabledState = (): Promise<boolean> => {
   return BgReactNativeTorch.getIsTorchEnabled();
 };
 
+// Check whether the torch is available (true) or unavailable (false)
 const getAvailableState = (): Promise<boolean> => {
   return BgReactNativeTorch.getIsTorchAvailable();
 };
 
+// Register a callback to monitor the torch's state
 const registerTorchCallback = () => {
   BgReactNativeTorch.registerTorchCallback();
 };
 
+// Set a callback function to be called when the torch's state changes
 const onStateChange = (
   callback: (torchState: TorchState) => void
 ): EventSubscription => {
@@ -43,6 +47,7 @@ const onStateChange = (
   return subscription;
 };
 
+// Turn the torch's state to on (true) or off (false)
 const setEnabledState = (newState: boolean) => {
   BgReactNativeTorch.setStateEnabled(newState);
 };
