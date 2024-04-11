@@ -6,6 +6,11 @@ class BgReactNativeTorchObserver: NSObject {
     var availableObservation: NSKeyValueObservation?
     var activeObservation: NSKeyValueObservation?
 
+    /// Initialise an observer object to track changes in torch state
+    /// 
+    /// - Parameters:
+    ///     - deviceToObserve: The device for which the torch should be observed
+    ///     - torchModule: The torch module object to emit events via
     init(deviceToObserve: AVCaptureDevice, torchModule: BgReactNativeTorch) {
         device = deviceToObserve
         super.init()
