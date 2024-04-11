@@ -1,4 +1,5 @@
 // BgReactNativeTorchBridge.m
+#import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 
 //#import "BgReactNativeTorch.h"

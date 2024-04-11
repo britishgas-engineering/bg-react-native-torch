@@ -2,13 +2,13 @@ import {
   type EventSubscription,
   NativeEventEmitter,
   NativeModules,
-} from "react-native";
-import { TorchState } from "./types";
+} from 'react-native';
+import type { TorchState } from './types';
 
 const LINKING_ERROR =
   "The package 'bg-react-native-torch' doesn't seem to be linked. Make sure: \n\n" +
-  "- You rebuilt the app after installing the package\n" +
-  "- You are not using Expo Go\n";
+  '- You rebuilt the app after installing the package\n' +
+  '- You are not using Expo Go\n';
 
 const BgReactNativeTorch = NativeModules.BgReactNativeTorch
   ? NativeModules.BgReactNativeTorch
@@ -18,7 +18,7 @@ const BgReactNativeTorch = NativeModules.BgReactNativeTorch
         get() {
           throw new Error(LINKING_ERROR);
         },
-      },
+      }
     );
 
 BgReactNativeTorch.registerTorchCallback();
@@ -36,10 +36,10 @@ const registerTorchCallback = () => {
 };
 
 const onStateChange = (
-  callback: (torchState: TorchState) => void,
+  callback: (torchState: TorchState) => void
 ): EventSubscription => {
   const emitter = new NativeEventEmitter(BgReactNativeTorch);
-  const subscription = emitter.addListener("TorchStateChange", callback);
+  const subscription = emitter.addListener('TorchStateChange', callback);
   return subscription;
 };
 
