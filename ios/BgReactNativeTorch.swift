@@ -3,14 +3,13 @@ import React
 
 @objc(BgReactNativeTorch)
 class BgReactNativeTorch: RCTEventEmitter {
-    var device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
+    @objc dynamic var device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
     var observer: BgReactNativeTorchObserver? = nil
   
     /// Initialise the module, setting the device using AVCaptureDevice.default
     /// 
     /// - Returns: A BgReactNativeTorch object to control the torch
     override init() {
-      print("Initialising BgReactNativeTorch")
       self.device = AVCaptureDevice.default(for: AVMediaType.video)
       self.observer = nil
       super.init()
@@ -27,7 +26,6 @@ class BgReactNativeTorch: RCTEventEmitter {
         device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video),
         observer: BgReactNativeTorchObserver? = nil
     ) {
-        print("Initialising BgReactNativeTorch")
         self.device = device
         self.observer = observer
         super.init()
@@ -35,10 +33,8 @@ class BgReactNativeTorch: RCTEventEmitter {
 
     /// Register a callback so that changes to state and availability will be tracked
     @objc func registerTorchCallback() -> Void {
-        print("Attempting to register torch callback")
         if (device != nil) {
             observer = BgReactNativeTorchObserver(deviceToObserve: device!, torchModule: self)
-            print("Successfully registered callback")
         }
     }
 
@@ -54,7 +50,6 @@ class BgReactNativeTorch: RCTEventEmitter {
                   device?.torchMode = newTorchMode
                   device?.unlockForConfiguration()
               } catch {
-                  print("Unable to lock torch for configuration")
               }
           }
       }
@@ -73,9 +68,9 @@ class BgReactNativeTorch: RCTEventEmitter {
     /// 
     /// - Returns: Whether the torch is enabled (true) or disabled (false)
     func checkEnabledState() -> Bool {
-        print("checkEnabledState() --> " + String(device?.isTorchActive ?? false))
         return device?.isTorchActive ?? false
         // Should maybe be checking device.torchMode instead?
+//        return device?.torchMode == AVCaptureDevice.TorchMode.on
     }
 
     /// Asynchronous method to determine if the torch is available
@@ -92,7 +87,6 @@ class BgReactNativeTorch: RCTEventEmitter {
     /// 
     /// - Returns: Whether the torch is available (true) or unavailable (false)
     func checkAvailabilityState() -> Bool {
-        print("checkAvailabilityState() --> " + String(device?.isTorchAvailable ?? false))
         return device?.isTorchAvailable ?? false
     }
 
@@ -103,7 +97,6 @@ class BgReactNativeTorch: RCTEventEmitter {
     
     /// Emit the current enabled and availability states of the torch
     func emitEvent() {
-        print("Emitting event with available: " + String(checkAvailabilityState()) + " and enabled: " + String(checkEnabledState()))
         sendEvent(
             withName: "TorchStateChange",
             body: [
