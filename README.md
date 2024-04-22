@@ -42,10 +42,11 @@ Callback function will be called whenever the availability or enabled state of t
 
 ### TorchState interface
 
-```interface TorchState {
+```
+interface TorchState {
     enabled: boolean;
     available: boolean;
 }
-
+```
 
 Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
