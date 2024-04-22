@@ -2,7 +2,7 @@ import AVFoundation
 import React
 
 class BgReactNativeTorchObserver: NSObject {
-    var device: AVCaptureDevice
+    @objc dynamic var device: AVCaptureDevice
     var availableObservation: NSKeyValueObservation?
     var activeObservation: NSKeyValueObservation?
 
