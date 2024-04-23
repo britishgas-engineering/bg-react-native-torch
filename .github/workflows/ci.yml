@@ -65,6 +65,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '11'
+
       - name: Setup
         uses: ./.github/actions/setup
 
