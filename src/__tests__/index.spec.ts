@@ -1,22 +1,27 @@
 import { describe, it } from '@jest/globals';
 
-const mockGetIsTorchEnabled = jest.fn(() => {
-  return true;
-});
-const mockGetIsTorchAvailable = jest.fn(() => {
-  return true;
-});
-const mockRegisterTorchCallback = jest.fn();
-const mockSetStateEnabled = jest.fn();
+let mockGetIsTorchEnabled: () => boolean;
+let mockGetIsTorchAvailable: () => boolean;
+let mockRegisterTorchCallback: () => void;
+let mockSetStateEnabled: (newState: boolean) => void;
 
 jest.mock('react-native', () => {
+  mockGetIsTorchEnabled = jest.fn(() => {
+    return true;
+  });
+  mockGetIsTorchAvailable = jest.fn(() => {
+    return true;
+  });
+  mockRegisterTorchCallback = jest.fn();
+  mockSetStateEnabled = jest.fn();
+
   const RN = jest.requireActual('react-native');
 
   RN.NativeModules.BgReactNativeTorch = {
-    getIsTorchEnabled: () => mockGetIsTorchEnabled(),
-    getIsTorchAvailable: () => mockGetIsTorchAvailable(),
-    registerTorchCallback: () => mockRegisterTorchCallback(),
-    setStateEnabled: (newState: boolean) => mockSetStateEnabled(newState),
+    getIsTorchEnabled: mockGetIsTorchEnabled,
+    getIsTorchAvailable: mockGetIsTorchAvailable,
+    registerTorchCallback: mockRegisterTorchCallback,
+    setStateEnabled: mockSetStateEnabled,
   };
 
   return RN;
