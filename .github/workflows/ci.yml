@@ -68,8 +68,8 @@ jobs:
       - name: Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '11'
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup
         uses: ./.github/actions/setup
