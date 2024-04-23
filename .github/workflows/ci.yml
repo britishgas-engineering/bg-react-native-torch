@@ -47,6 +47,30 @@ jobs:
       - name: Build package
         run: yarn prepare
 
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Gradle build
+        run: ./android/src/gradlew build
+
+  test-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Gradle build
+        run: ./android/src/gradlew test
+
   npm-pack:
     runs-on: ubuntu-latest
     steps:
