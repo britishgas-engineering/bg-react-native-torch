@@ -5,14 +5,16 @@ import React
 class BgReactNativeTorch: RCTEventEmitter {
     @objc dynamic var device: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
     var observer: BgReactNativeTorchObserver? = nil
+    public static var sharedEmitter:BgReactNativeTorch?
   
     /// Initialise the module, setting the device using AVCaptureDevice.default
     /// 
     /// - Returns: A BgReactNativeTorch object to control the torch
     override init() {
+      super.init()
+      BgReactNativeTorch.sharedEmitter = self
       self.device = AVCaptureDevice.default(for: AVMediaType.video)
       self.observer = nil
-      super.init()
     }
   
     /// Initialise the module, using the passed arguments to set device and observer
@@ -97,7 +99,7 @@ class BgReactNativeTorch: RCTEventEmitter {
     
     /// Emit the current enabled and availability states of the torch
     func emitEvent() {
-        sendEvent(
+        BgReactNativeTorch.sharedEmitter?.sendEvent(
             withName: "TorchStateChange",
             body: [
                 "available": checkAvailabilityState(),
