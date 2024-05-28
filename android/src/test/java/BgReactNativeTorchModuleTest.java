@@ -16,10 +16,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
-
 import androidx.test.core.app.ApplicationProvider;
 
 import com.facebook.react.bridge.Arguments;
@@ -47,6 +43,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchCallback;
 import uk.co.britishgas.bgreactnativetorch.BgReactNativeTorchModule;
+import uk.co.britishgas.bgreactnativetorch.CameraManagerWrapper;
 
 // TODO: Figure out testing for Android < 6
 
@@ -58,10 +55,8 @@ public class BgReactNativeTorchModuleTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
-    private CameraManager mockCameraManager;
+    private CameraManagerWrapper mockCameraManagerWrapper;
 
-    @Mock
-    private CameraCharacteristics mockCameraCharacteristics;
     private final ReactApplicationContext reactApplicationContext = spy(
             new ReactApplicationContext(ApplicationProvider.getApplicationContext()));
 
@@ -92,19 +87,13 @@ public class BgReactNativeTorchModuleTest {
     public void testGetIsTorchAvailable() {
 
         try {
-            when(mockCameraManager.getCameraIdList()).thenReturn(new String[] {});
+            when(mockCameraManagerWrapper.getAvailabilityState()).thenReturn(false);
             torchModule.getIsTorchAvailable(new MockBoolPromise(false));
 
-            when(mockCameraManager.getCameraIdList()).thenReturn(new String[] { "0" });
-            when(mockCameraManager.getCameraCharacteristics("0"))
-                    .thenReturn(mockCameraCharacteristics);
-
-            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
-                    .thenReturn(false);
+            when(mockCameraManagerWrapper.getAvailabilityState()).thenReturn(false);
             torchModule.getIsTorchAvailable(new MockBoolPromise(false));
 
-            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
-                    .thenReturn(true);
+            when(mockCameraManagerWrapper.getAvailabilityState()).thenReturn(true);
 
             torchModule.getIsTorchAvailable(new MockBoolPromise(true));
 
@@ -134,21 +123,15 @@ public class BgReactNativeTorchModuleTest {
                     .emit(eq("TorchModule"), any(WritableMap.class));
 
             doNothing()
-                    .when(mockCameraManager)
+                    .when(mockCameraManagerWrapper)
                     .registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
 
-            when(mockCameraManager.getCameraIdList()).thenReturn(new String[] { "0" });
-
-            when(mockCameraManager.getCameraCharacteristics("0"))
-                    .thenReturn(mockCameraCharacteristics);
-
-            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
-                    .thenReturn(true);
+            when(mockCameraManagerWrapper.getAvailabilityState()).thenReturn(true);
 
             mockArguments.when(Arguments::createMap).thenReturn(new JavaOnlyMap());
 
             torchModule.registerTorchCallback();
-            verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
+            verify(mockCameraManagerWrapper).registerTorchCallback(callbackCaptor.capture(), isNull());
             BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
 
             callbackCaptorValue.onTorchModeChanged("0", true);
@@ -214,8 +197,6 @@ public class BgReactNativeTorchModuleTest {
             assertTrue(eventParams.getBoolean("available"));
             assertFalse(eventParams.getBoolean("enabled"));
 
-        } catch (CameraAccessException e) {
-            fail();
         }
     }
 
@@ -232,24 +213,17 @@ public class BgReactNativeTorchModuleTest {
                     .emit(eq("TorchModule"), any(WritableMap.class));
 
             doNothing()
-                    .when(mockCameraManager)
+                    .when(mockCameraManagerWrapper)
                     .registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
 
             ReflectionTestUtils.setField(torchModule, "isTorchEnabled", false);
 
-            when(mockCameraManager.getCameraIdList())
-                    .thenReturn(new String[] { "0" });
-
-            when(mockCameraManager.getCameraCharacteristics("0"))
-                    .thenReturn(mockCameraCharacteristics);
-
-            when(mockCameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
-                    .thenReturn(false);
+            when(mockCameraManagerWrapper.getAvailabilityState()).thenReturn(false);
 
             mockArguments.when(Arguments::createMap).thenReturn(new JavaOnlyMap());
 
             torchModule.registerTorchCallback();
-            verify(mockCameraManager).registerTorchCallback(callbackCaptor.capture(), isNull());
+            verify(mockCameraManagerWrapper).registerTorchCallback(callbackCaptor.capture(), isNull());
             BgReactNativeTorchCallback callbackCaptorValue = callbackCaptor.getValue();
 
             callbackCaptorValue.onTorchModeUnavailable("0");
@@ -269,19 +243,17 @@ public class BgReactNativeTorchModuleTest {
             assertFalse(eventParams.getBoolean("available"));
             assertFalse(eventParams.getBoolean("enabled"));
 
-        } catch (CameraAccessException e) {
-            fail();
         }
     }
 
     @Test
     public void testRegisterTorchCallback() {
         doNothing()
-                .when(mockCameraManager)
+                .when(mockCameraManagerWrapper)
                 .registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
 
         torchModule.registerTorchCallback();
-        verify(mockCameraManager, times(1))
+        verify(mockCameraManagerWrapper, times(1))
                 .registerTorchCallback(any(BgReactNativeTorchCallback.class), isNull());
     }
 
@@ -293,26 +265,21 @@ public class BgReactNativeTorchModuleTest {
 
     @Test
     public void testSetStateEnabled() {
-        try {
-            when(mockCameraManager.getCameraIdList()).thenReturn(new String[] { "0" });
-            doNothing().when(mockCameraManager).setTorchMode(eq("0"), anyBoolean());
-            torchModule.setStateEnabled(true);
-            verify(mockCameraManager, times(1))
-                    .setTorchMode("0", true);
+      when(mockCameraManagerWrapper.getCameraIdList()).thenReturn(new String[] { "0" });
+      doNothing().when(mockCameraManagerWrapper).setTorchMode(eq("0"), anyBoolean());
+      torchModule.setStateEnabled(true);
+      verify(mockCameraManagerWrapper, times(1))
+              .setTorchMode("0", true);
 
-            torchModule.setStateEnabled(false);
-            verify(mockCameraManager, times(1))
-                    .setTorchMode("0", false);
+      torchModule.setStateEnabled(false);
+      verify(mockCameraManagerWrapper, times(1))
+              .setTorchMode("0", false);
 
-        } catch (CameraAccessException e) {
-            fail();
-        }
     }
 
     @After
     public void tearDown() {
-        reset(mockCameraManager);
-        reset(mockCameraCharacteristics);
+        reset(mockCameraManagerWrapper);
         reset(reactApplicationContext);
     }
 }

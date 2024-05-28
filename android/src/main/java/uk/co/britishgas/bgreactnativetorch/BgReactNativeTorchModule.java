@@ -1,9 +1,5 @@
 package uk.co.britishgas.bgreactnativetorch;
 
-import android.content.Context;
-import android.hardware.Camera;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.util.Log;
@@ -18,33 +14,43 @@ import java.util.Objects;
 /**
  * Controls the torch on a phone, and provides information about the torch's
  * current state
- * 
+ *
  * @author Kieran Gajraj
- * @version 0.1.0
+ * @version 1.8.0
  */
 public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
-    final boolean SUPPORT_LEGACY_TORCH = false;
-    private CameraManager cameraManager;
-    private CameraManager.TorchCallback torchCallback;
+    private boolean cameraManagerAvailable;
+    private CameraManagerWrapper cameraManagerWrapper;
+    private BgReactNativeTorchCallback torchCallback;
     Boolean isTorchEnabled = false;
 
     /**
      * Constructor for BgReactNativeTorchModule
-     * 
+     *
      * @param reactContext The React Native Application context
      */
     public BgReactNativeTorchModule(ReactApplicationContext reactContext) {
         super(reactContext);
 
+        try {
+          CameraManagerWrapper.checkAvailable();
+          cameraManagerAvailable = true;
+          System.out.println("IT'S AVAILABLE");
+        } catch (Throwable t) {
+          cameraManagerAvailable = false;
+          System.out.println("IT'S NOT AVAILABLE");
+        }
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cameraManager = (CameraManager) reactContext.getSystemService(Context.CAMERA_SERVICE);
+            cameraManagerWrapper = new CameraManagerWrapper(reactContext);
             torchCallback = new BgReactNativeTorchCallback(this, reactContext);
         }
     }
 
     /**
      * Get the name of the module
-     * 
+     *
      * @return The module's name
      */
     @Override()
@@ -58,99 +64,65 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void registerTorchCallback() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cameraManager.registerTorchCallback(torchCallback, null);
-        }
+      if (cameraManagerAvailable) {
+        cameraManagerWrapper.registerTorchCallback(torchCallback, null);
+      }
     }
 
     /**
      * Get the current mode of the torch (on or off)
-     * 
+     *
      * @return Whether the torch is currently enabled
      */
     @ReactMethod
     public void getIsTorchEnabled(Promise promise) {
+      if (cameraManagerAvailable) {
         promise.resolve(checkEnabledState());
+      } else {
+        promise.resolve((false));
+      }
     }
 
     public boolean checkEnabledState() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return isTorchEnabled;
-        } else if (SUPPORT_LEGACY_TORCH) {
-            // Need to test this with Android < 6
-            return Objects.equals(
-                    Camera.open().getParameters().getFlashMode(),
-                    Camera.Parameters.FLASH_MODE_TORCH);
-        } else {
-            return false;
-        }
+        return isTorchEnabled;
     }
 
     /**
      * Get the current availability state of the torch
-     * 
+     *
      * @return Whether the torch is currently available
      */
     @ReactMethod
     public void getIsTorchAvailable(Promise promise) {
+      if (cameraManagerAvailable) {
         promise.resolve(checkAvailabilityState());
+      } else {
+        promise.resolve(false);
+      }
     }
 
     public boolean checkAvailabilityState() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                String[] cameraIds = cameraManager.getCameraIdList();
-
-                if (cameraIds == null) {
-                    return false;
-                }
-                if (cameraIds.length == 0) {
-                    return false;
-                }
-                return cameraManager.getCameraCharacteristics(cameraIds[0])
-                        .get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-            } catch (CameraAccessException e) {
-                Log.e("TorchModule", "Error: " + e.getMessage());
-                return false;
-            }
-        } else if (SUPPORT_LEGACY_TORCH) {
-            return !(Camera.open() == null);
-        } else {
-            return false;
-        }
+      if (cameraManagerAvailable) {
+        return cameraManagerWrapper.getAvailabilityState();
+      } else {
+        return false;
+      }
     }
 
     /**
      * Turn the torch on or off
-     * 
+     *
      * @param newState The new enabled state for the torch (true = on; false = off)
      */
     @ReactMethod
     public void setStateEnabled(Boolean newState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (cameraManagerAvailable) {
             try {
-                String cameraId = cameraManager.getCameraIdList()[0];
-                cameraManager.setTorchMode(cameraId, newState);
+                String cameraId = cameraManagerWrapper.getCameraIdList()[0];
+                cameraManagerWrapper.setTorchMode(cameraId, newState);
             } catch (Exception e) {
                 Log.e("TorchModule", "Error: " + e.getMessage());
             }
-        } else if (SUPPORT_LEGACY_TORCH) {
-            Camera camera = Camera.open();
-            if (camera == null) {
-                return;
-            }
-            Camera.Parameters params = camera.getParameters();
-            if (newState) {
-                params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                camera.setParameters(params);
-                camera.startPreview();
-            } else {
-                params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                camera.setParameters(params);
-                camera.stopPreview();
-                camera.release();
-            }
-            isTorchEnabled = newState;
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@britishgas-engineering/bg-react-native-torch",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Control the device's torch",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
