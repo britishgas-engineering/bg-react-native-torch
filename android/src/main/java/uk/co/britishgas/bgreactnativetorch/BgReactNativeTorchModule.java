@@ -16,7 +16,7 @@ import java.util.Objects;
  * current state
  *
  * @author Kieran Gajraj
- * @version 1.8.0
+ * @version 0.2.0
  */
 public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
     private boolean cameraManagerAvailable;
@@ -35,10 +35,8 @@ public class BgReactNativeTorchModule extends ReactContextBaseJavaModule {
         try {
           CameraManagerWrapper.checkAvailable();
           cameraManagerAvailable = true;
-          System.out.println("IT'S AVAILABLE");
         } catch (Throwable t) {
           cameraManagerAvailable = false;
-          System.out.println("IT'S NOT AVAILABLE");
         }
 
 
