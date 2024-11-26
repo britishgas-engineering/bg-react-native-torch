@@ -89,6 +89,7 @@ dependencies {
   //noinspection GradleDynamicVersion
 //  implementation "com.facebook.react:react-native:+"
   implementation 'com.facebook.react:react-android:0.71.14'
+  implementation 'androidx.exifinterface:exifinterface:1.3.6'
 
   testImplementation 'com.facebook.react:react-android:0.71.14'
   testImplementation 'junit:junit:4.12'
